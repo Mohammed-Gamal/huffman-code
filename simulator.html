@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Build, animate, and inspect a Huffman tree from your own text.">
+  <title>Interactive Simulator · Huffman Code Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23172126'/%3E%3Cpath d='M17 16v32M47 16v32M17 32h30' stroke='%23ff6b35' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">H</span> Huffman Code Lab</a><nav class="nav" aria-label="Main navigation"><a href="index.html">Start</a><a href="explanation.html">Explanation</a><a aria-current="page" href="simulator.html">Simulator</a></nav></header>
+  <main class="sim-main">
+    <div class="sim-intro"><div><p class="eyebrow">Interactive simulator</p><h1>Build the tree</h1></div><p>Enter text to update the result instantly, or replay the greedy merge process one step at a time.</p></div>
+    <div class="workspace">
+      <aside class="panel input-panel">
+        <div class="panel-head"><h2>Input</h2><span class="hint" id="charCount">12 characters</span></div>
+        <div class="panel-body">
+          <label for="textInput">Text to encode</label>
+          <textarea id="textInput" maxlength="500" spellcheck="false">AAAAAABBBCCD</textarea>
+          <div class="sample-row" aria-label="Example inputs"><button class="chip" data-sample="AAAAAABBBCCD">Classic</button><button class="chip" data-sample="MISSISSIPPI">Mississippi</button><button class="chip" data-sample="hello huffman">Phrase</button></div>
+          <div class="control-row"><button class="btn primary" id="playBtn">▶ Play merges</button><button class="btn" id="stepBtn">Next step</button></div>
+          <div class="speed"><label for="speedRange">Animation speed</label><input id="speedRange" type="range" min="250" max="1400" value="800" step="50"><div class="hint">Fast ← → Slow</div></div>
+          <div class="status" id="status" aria-live="polite">Tree ready. Press Play merges to replay 3 decisions.</div>
+        </div>
+      </aside>
+      <section class="main-stack">
+        <div class="stats" aria-label="Compression summary">
+          <div class="stat"><span>Unique symbols</span><strong id="uniqueStat">4</strong></div><div class="stat"><span>Original (UTF-8)</span><strong id="originalStat">96 bits</strong></div><div class="stat"><span>Encoded payload</span><strong id="encodedStat">21 bits</strong></div><div class="stat"><span>Payload saving</span><strong id="savingStat">78.1%</strong></div>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><h2>Construction</h2><div class="viz-tabs" role="tablist" aria-label="Visualization"><button class="tab active" id="treeTab" role="tab" aria-selected="true">Tree</button><button class="tab" id="heapTab" role="tab" aria-selected="false">Heap steps</button></div></div>
+          <div class="tree-wrap" id="treeWrap"><svg id="treeSvg" role="img" aria-label="Huffman tree visualization"></svg></div>
+          <div class="heap-view" id="heapView"><div class="heap-row" id="heapRow"></div><p class="step-copy" id="stepCopy"></p></div>
+        </section>
+        <div class="result-grid">
+          <section class="panel"><div class="panel-head"><h2>Code table</h2><span class="hint">left 0 · right 1</span></div><div class="code-table-wrap"><table class="code-table"><thead><tr><th>Symbol</th><th>Freq.</th><th>Code</th></tr></thead><tbody id="codeBody"></tbody></table></div></section>
+          <section class="panel"><div class="panel-head"><h2>Encoded output</h2><button class="chip" id="copyBtn">Copy bits</button></div><div class="panel-body"><div class="bit-output" id="bitOutput"></div><div class="decoded" id="decodedOutput">✓ Decoded text matches the input.</div><p class="hint">The comparison above counts only the Huffman payload. A real file also stores tree metadata and packs bits into bytes.</p></div></section>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="simulator.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A visual, step-by-step explanation of Huffman coding.">
+  <title>How Huffman Coding Works · Huffman Code Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23172126'/%3E%3Cpath d='M17 16v32M47 16v32M17 32h30' stroke='%23ff6b35' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">H</span> Huffman Code Lab</a><nav class="nav" aria-label="Main navigation"><a href="index.html">Start</a><a aria-current="page" href="explanation.html">Explanation</a><a href="simulator.html">Simulator</a></nav></header>
+  <main>
+    <header class="page-head"><div class="shell"><p class="eyebrow">Explanation</p><h1>How Huffman coding works</h1><p class="lede">A greedy algorithm that converts symbol frequencies into a compact, prefix-free binary code.</p></div></header>
+    <div class="shell article">
+      <aside class="toc" aria-label="On this page"><p>On this page</p><a href="#problem">The problem</a><a href="#algorithm">The algorithm</a><a href="#example">Worked example</a><a href="#prefix">Prefix-free codes</a><a href="#complexity">Complexity</a><a href="#limits">What it does not do</a></aside>
+      <article class="prose">
+        <section id="problem"><p class="eyebrow">01 · The problem</p><h2>Fixed-width codes ignore frequency</h2><p>If four symbols are possible, a fixed-width representation needs two bits per symbol. But when <strong>A occurs far more often than D</strong>, treating them equally wastes bits. Huffman coding gives frequent symbols short codes and rare symbols longer ones.</p><div class="callout"><strong>Goal:</strong> minimize the weighted path length <span class="mono">Σ frequency(symbol) × code_length(symbol)</span> while keeping the code unambiguous.</div></section>
+        <section id="algorithm"><p class="eyebrow">02 · The algorithm</p><h2>Always merge the two smallest</h2><ol><li>Count the frequency of every distinct symbol.</li><li>Create one leaf node for each symbol and place all leaves in a min-heap.</li><li>Remove the two nodes with the smallest frequencies.</li><li>Make them children of a new node whose frequency is their sum.</li><li>Push the parent back into the heap and repeat until one node remains.</li><li>Label left edges <span class="mono">0</span> and right edges <span class="mono">1</span>.</li></ol><pre class="codebox">while heap has more than one node:
+    left  = remove_min(heap)
+    right = remove_min(heap)
+    parent = Node(left.freq + right.freq)
+    parent.left, parent.right = left, right
+    insert(heap, parent)
+
+root = the only node remaining</pre><p>This is a <strong>greedy choice</strong>: at every step, it commits to placing the two least frequent subtrees deepest together. Huffman's exchange argument proves that an optimal prefix tree exists with those two symbols as siblings.</p></section>
+        <section id="example"><p class="eyebrow">03 · Worked example</p><h2>AAAAAABBBCCD</h2><table class="mini-table"><thead><tr><th>Symbol</th><th>Frequency</th><th>One valid code</th><th>Cost</th></tr></thead><tbody><tr><td>A</td><td>6</td><td class="mono">1</td><td>6 × 1 = 6</td></tr><tr><td>B</td><td>3</td><td class="mono">01</td><td>3 × 2 = 6</td></tr><tr><td>C</td><td>2</td><td class="mono">001</td><td>2 × 3 = 6</td></tr><tr><td>D</td><td>1</td><td class="mono">000</td><td>1 × 3 = 3</td></tr></tbody></table><p>The encoded payload costs <strong>21 bits</strong>. A simple two-bit code for the same 12 symbols costs 24 bits. The exact codes can swap when frequencies tie, but their total cost remains optimal.</p><div class="callout">Real file compression must also store enough information to reconstruct the code tree, and it packs bits into bytes. A displayed string of “0” and “1” characters is a teaching representation, not the final binary file format.</div></section>
+        <section id="prefix"><p class="eyebrow">04 · Decoding</p><h2>Why no separator is needed</h2><p>No Huffman code is the prefix of another. If <span class="mono">A = 1</span>, no other symbol can begin with <span class="mono">1</span>. The decoder starts at the root, moves left for 0 and right for 1, emits a character upon reaching a leaf, and returns to the root.</p><pre class="codebox">for bit in encoded_bits:
+    current = current.left if bit == "0" else current.right
+    if current is a leaf:
+        output current.symbol
+        current = root</pre></section>
+        <section id="complexity"><p class="eyebrow">05 · Analysis</p><h2>Time and space complexity</h2><p>Let <span class="mono">n</span> be the text length and <span class="mono">k</span> the number of unique symbols.</p><table class="mini-table"><thead><tr><th>Operation</th><th>Complexity</th></tr></thead><tbody><tr><td>Count frequencies</td><td class="mono">O(n)</td></tr><tr><td>Build the heap/tree</td><td class="mono">O(k log k)</td></tr><tr><td>Generate codes</td><td class="mono">O(k)</td></tr><tr><td>Encode / decode</td><td class="mono">O(n)</td></tr><tr><td>Tree + code map space</td><td class="mono">O(k)</td></tr></tbody></table></section>
+        <section id="limits"><p class="eyebrow">06 · Perspective</p><h2>Optimal does not mean universal</h2><p>Huffman coding is optimal among symbol-by-symbol prefix codes when the frequencies are known. It may perform poorly on tiny inputs once tree metadata is included, and it cannot assign fractional-bit lengths. Modern compressors often combine dictionary or context modeling with entropy coders such as arithmetic or range coding.</p><a class="btn primary" href="simulator.html">Test the algorithm yourself →</a></section>
+      </article>
+    </div>
+  </main>
+  <footer class="footer"><div class="shell">Huffman Code Lab · From frequency table to prefix tree.</div></footer>
+</body>
+</html>

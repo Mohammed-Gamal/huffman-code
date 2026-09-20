@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Learn Huffman coding visually, then build and inspect a Huffman tree from your own text.">
+  <title>Huffman Code Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23172126'/%3E%3Cpath d='M17 16v32M47 16v32M17 32h30' stroke='%23ff6b35' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">H</span> Huffman Code Lab</a>
+    <nav class="nav" aria-label="Main navigation"><a aria-current="page" href="index.html">Start</a><a href="explanation.html">Explanation</a><a href="simulator.html">Simulator</a></nav>
+  </header>
+  <main>
+    <section class="shell hero">
+      <div>
+        <p class="eyebrow">Greedy algorithms · Trees · Compression</p>
+        <h1>See text turn into bits.</h1>
+        <p class="lede">Understand Huffman coding by watching the two smallest frequencies merge, one decision at a time.</p>
+        <div class="actions"><a class="btn primary" href="simulator.html">Open the simulator →</a><a class="btn" href="explanation.html">Learn the algorithm</a></div>
+      </div>
+      <div class="hero-visual" aria-label="Example Huffman tree for AAAAAABBBCCD">
+        <div class="tree-demo">
+          <div class="edge" style="left:50%;top:13%;width:29%;transform:rotate(133deg)"></div><div class="edge" style="left:50%;top:13%;width:31%;transform:rotate(47deg)"></div>
+          <div class="edge" style="left:29%;top:38%;width:25%;transform:rotate(132deg)"></div><div class="edge" style="left:29%;top:38%;width:24%;transform:rotate(47deg)"></div>
+          <div class="edge" style="left:12%;top:61%;width:20%;transform:rotate(126deg)"></div><div class="edge" style="left:12%;top:61%;width:20%;transform:rotate(53deg)"></div>
+          <span class="edge-label" style="left:36%;top:23%">0</span><span class="edge-label" style="left:65%;top:23%">1</span><span class="edge-label" style="left:21%;top:47%">0</span><span class="edge-label" style="left:42%;top:47%">1</span><span class="edge-label" style="left:5%;top:70%">0</span><span class="edge-label" style="left:22%;top:70%">1</span>
+          <div class="demo-node" style="left:50%;top:12%">12</div><div class="demo-node" style="left:29%;top:38%">6</div><div class="demo-node leaf" style="left:72%;top:38%">A · 6</div><div class="demo-node" style="left:12%;top:62%">3</div><div class="demo-node leaf" style="left:47%;top:62%">B · 3</div><div class="demo-node leaf" style="left:1%;top:88%">D · 1</div><div class="demo-node leaf" style="left:25%;top:88%">C · 2</div>
+        </div>
+        <div class="hero-note"><strong class="mono">A = 1</strong><br>Frequent symbols receive shorter codes.</div>
+      </div>
+    </section>
+    <section class="section dark"><div class="shell"><div class="section-head"><p class="eyebrow" style="color:#80a7ff">The mental model</p><h2>Three ideas. One optimal prefix code.</h2><p>Huffman coding is easier when you separate the data structures from the purpose.</p></div><div class="cards">
+      <article class="card"><div class="number">01</div><h3>Count</h3><p>Build a frequency table. Common characters should eventually sit closer to the root.</p></article>
+      <article class="card"><div class="number">02</div><h3>Merge</h3><p>Repeatedly combine the two least frequent nodes using a min-priority queue.</p></article>
+      <article class="card"><div class="number">03</div><h3>Trace</h3><p>Label left edges 0 and right edges 1. Every root-to-leaf path becomes a code.</p></article>
+    </div></div></section>
+    <section class="section"><div class="shell section-head"><p class="eyebrow">Ready to experiment?</p><h2>Change one character. Watch the whole tree adapt.</h2><p>The simulator updates immediately and lets you replay every greedy merge.</p><a class="btn primary" href="simulator.html">Build a Huffman tree →</a></div></section>
+  </main>
+  <footer class="footer"><div class="shell">Built for learning: inspect the frequencies, heap, tree, codes, and round-trip decoding.</div></footer>
+</body>
+</html>
