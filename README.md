@@ -155,7 +155,3 @@ Huffman coding produces an optimal symbol-by-symbol prefix code when the symbol 
 ## Author
 
 Developed by **Mohamed Gamal** as an interactive resource for understanding Huffman coding and fundamental computer science concepts.
-
-## License
-
-No license has been specified yet. If you want other people to reuse, modify, or distribute the project, add an appropriate <code>LICENSE</code> file to the repository.
